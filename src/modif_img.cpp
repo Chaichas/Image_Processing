@@ -2,6 +2,7 @@
 #include <string.h>
 #include "FreeImage.h"
 #include "../inc/mykernel_pixel_saturation.h"
+#include "../inc/mykernel_horizontal_symmetry.h"
 /*
   Define the block width of the grid
 */
@@ -61,8 +62,14 @@ int main (int argc , char** argv)
   memcpy(d_tmp, img, 3 * width * height * sizeof(unsigned int));
 
   /* Kernels (GPU) */
-  // Question 6
-  run_pixel_saturation(d_img, width, height, BLOCK_WIDTH);
+  
+  /* Question 6 */
+  //run_pixel_saturation(d_img, width, height, BLOCK_WIDTH);
+  /* END Question 6 */
+
+  /* Question 7 */
+  run_horizontal_symmetry(d_img, d_tmp, width, height, BLOCK_WIDTH);
+  /* END Question 7 */
 
   /* Copy back */
   memcpy(img, d_img, 3 * width * height * sizeof(unsigned int));

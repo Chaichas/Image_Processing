@@ -39,3 +39,9 @@ This question consists in saturating each pixel of the input test image among R 
 ![Results](pics/saturation.png)
 
 ### Question 7 : Horizontal Symmetry of the image
+
+This question consists in doing an horizontal symmetry of an input image, in our case the test image. The output image after the code execution is an horizontally symmetric image as shown hereunder.
+
+![Results](pics/symetrie_horizontale.png)
+
+
