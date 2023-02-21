@@ -44,4 +44,10 @@ This question consists in doing an horizontal symmetry of an input image, in our
 
 ![Results](pics/symetrie_horizontale.png)
 
+### Question 8 : Blur image
+
+In this question, the kernel making a blur on the image is implemented. To do so, the value of a pixel is updated using the average values of this later and its neighbors, as shown in the figure below.
+
+![Results](pics/pixels_vois.png)
+
 
