@@ -54,7 +54,6 @@ img {
   margin: auto;
 }
 </style>
-
 <img src="pics/pixels_vois.png" alt="Results" width="400"/>
 
 
