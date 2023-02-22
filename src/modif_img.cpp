@@ -3,10 +3,12 @@
 #include "FreeImage.h"
 #include "../inc/mykernel_pixel_saturation.h"
 #include "../inc/mykernel_horizontal_symmetry.h"
-/*
-  Define the block width of the grid
-*/
-#define BLOCK_WIDTH 32
+#include "../inc/mykernel_blur_image.h"
+#include "../inc/mykernel_grayscale.h"
+//#include "../inc/mykernel_sobel.h"
+
+// Define the block width of the grid (unsigned)
+#define BLOCK_WIDTH (32u)
 
 #define WIDTH 1920
 #define HEIGHT 1024*
@@ -68,8 +70,16 @@ int main (int argc , char** argv)
   /* END Question 6 */
 
   /* Question 7 */
-  run_horizontal_symmetry(d_img, d_tmp, width, height, BLOCK_WIDTH);
+  //run_horizontal_symmetry(d_img, d_tmp, width, height, BLOCK_WIDTH);
   /* END Question 7 */
+
+  /* END Question 8 */
+  run_blur_image(d_img, width, height, BLOCK_WIDTH);
+  /* END Question 8 */
+
+  /* END Question 9 */
+  //run_grayscale_image(d_img, width, height, BLOCK_WIDTH);
+  /* END Question 9 */
 
   /* Copy back */
   memcpy(img, d_img, 3 * width * height * sizeof(unsigned int));
