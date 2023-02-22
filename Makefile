@@ -1,4 +1,4 @@
-# Compiler and flags
+# Compiler flags
 GPP = g++
 NVCC = nvcc
 IFLAGS = -I${HOME}/softs/FreeImage/include
