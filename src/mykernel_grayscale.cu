@@ -1,39 +1,40 @@
-/* Question 7 */
+/* Question 9 */
 
-#include "../inc/mykernel_horizontal_symmetry.h"
+#include "../inc/mykernel_grayscale.h"
 
-/*  Horizontal symmetry kernel on GPU */
-__global__ void horizontal_symmetry(unsigned int *img, unsigned int *tmp, unsigned width, unsigned height){
-  
+/*  Grayscale image kernel on GPU */
+__global__ void grayscale_image(unsigned int *img, unsigned int width, unsigned int height){
+    
     // Calculate the thread indices within a 2D grid
-    int idx_col = threadIdx.x + blockIdx.x * blockDim.x;
-    int idx_line = threadIdx.y + blockIdx.y * blockDim.y;
+    int idx_col = threadIdx.x + blockDim.x * blockIdx.x;
+    int idx_line = threadIdx.y + blockDim.y * blockIdx.y;
 
+    // Calculate the thread index
     int idx = ((idx_line * width) + idx_col) * 3;
-    //int mirror_idx = ((idx_line * width) + (width - idx_col - 1)) * 3; //vertical
-    int mirror_idx = ((height - 1 - idx_line) * width + idx_col) * 3;
 
-    if ((idx_col < width) && (idx_line < height)){
+    // Calculate the grayscale index (as a weighted sum)
+    int idx_gray = 0.299 * img[idx + 0] + 0.587 * img[idx + 1]+ 0.114 * img[idx + 2];
 
-        img[idx + 0] = tmp[mirror_idx + 0];
-        img[idx + 1] = tmp[mirror_idx + 1];
-        img[idx + 2] = tmp[mirror_idx + 2];
-
+    // Grayscale transformation of the image
+    if ((idx_col < width) && (idx_line < height)) {
+        
+        img[idx + 0] = idx_gray;
+        img[idx + 1] = idx_gray;
+        img[idx + 2] = idx_gray;
     }
+
 }
 
-/*  Run of the horizontal symmetry kernel */
-void run_horizontal_symmetry(unsigned int *d_img, unsigned int *d_tmp, unsigned width, unsigned height, unsigned BLOCK_WIDTH) {
+
+/*  Run of the Grayscale image kernel */
+void run_grayscale_image(unsigned int *d_img, unsigned width, unsigned height, unsigned BLOCK_WIDTH) {
     
     // Memory allocation on device (GPU)
     unsigned int *dk_img;
-    unsigned int *dk_tmp;
     CUDA_VERIF(cudaMalloc((void **)&dk_img, sizeof(unsigned int) * 3 * width * height));
-    CUDA_VERIF(cudaMalloc((void **)&dk_tmp, sizeof(unsigned int) * 3 * width * height));
   
     // Transfer data from GPU to CPU
     CUDA_VERIF(cudaMemcpy(dk_img, d_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
-    CUDA_VERIF(cudaMemcpy(dk_tmp, d_tmp, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
   
     /*
         - Define the x-dimension of the grid
@@ -56,18 +57,16 @@ void run_horizontal_symmetry(unsigned int *d_img, unsigned int *d_tmp, unsigned 
     dim3 grid_size(nb_block_x, nb_block_y);
     dim3 block_size(BLOCK_WIDTH, BLOCK_WIDTH);
 
-    // Calling "horizontal_symmetry" kernel
-    horizontal_symmetry<<<grid_size, block_size>>>(dk_img, dk_tmp, width, height);
+    // Calling "blur_image" kernel
+    grayscale_image<<<grid_size, block_size>>>(dk_img, width, height);
     CUDA_VERIF(cudaDeviceSynchronize()); //synchronization
 
     // Transfer data from CPU to GPU
     CUDA_VERIF(cudaMemcpy(d_img, dk_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
-    CUDA_VERIF(cudaMemcpy(d_tmp, dk_tmp, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
 
     // Free allocated memory on GPU
     cudaFree(dk_img);
-    cudaFree(dk_tmp);
 
 }
 
-/* END Question 7 */
+/* END Question 9 */

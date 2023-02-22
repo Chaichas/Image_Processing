@@ -74,11 +74,11 @@ int main (int argc , char** argv)
   /* END Question 7 */
 
   /* END Question 8 */
-  run_blur_image(d_img, width, height, BLOCK_WIDTH);
+  //run_blur_image(d_img, width, height, BLOCK_WIDTH);
   /* END Question 8 */
 
   /* END Question 9 */
-  //run_grayscale_image(d_img, width, height, BLOCK_WIDTH);
+  run_grayscale_image(d_img, width, height, BLOCK_WIDTH);
   /* END Question 9 */
 
   /* Copy back */
