@@ -1,8 +1,9 @@
-#pragma once
+ #pragma once
 
 #include <iostream>
 #include <cuda.h>
 #include<cuda_runtime.h>
+
 /*
   Check the CUDA runtime return value.
     - If cudaSuccess : OK 
@@ -16,8 +17,13 @@
   } \
 }
 
-/* Question 7 */
+// Define a threshold to adjust the image edge detection sensitivity
+#define THRESHOLD 90
+constexpr int BLOCK_SIZE = 32;
 
-void run_horizontal_symmetry(unsigned int *d_img, unsigned int *d_tmp, unsigned width, unsigned height, unsigned BLOCK_WIDTH);
+/* Question 10 */
 
-/* END Question 7 */
+void run_sobel_filter(unsigned int *d_img, unsigned width, unsigned height, unsigned BLOCK_WIDTH);
+
+/* END Question 10 */
+

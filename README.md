@@ -56,4 +56,10 @@ In this question, the initial image is modified into a grayscaled one. The resul
 
 ![Results](pics/grayscale.png)
 
+### Question 10 : Sobel Filter
 
+In this question, the sobel filter is applied to modify the image in such a way the edges are colored in white on a black background. The filter calculates the gradient of the image intensity at each pixel location.
+
+Both kernel versions using global and shared memory are applied. Fixing the threshold, determining the min value of a pixel to be considered as an edge, equal to 90 and the padding to 2, we obtain the following.
+
+![Results](pics/grayscasobelle.png)
