@@ -63,4 +63,4 @@ In this question, the sobel filter is applied to modify the image in such a way 
 Both kernel versions using global and shared memory are applied. Fixing the threshold, determining the min value of a pixel to be considered as an edge, equal to 90 and the padding to 2, we obtain the following image. This question is implemented in *src/mykernel_sobel.cu* and *inc/mykernel_sobel.h*.
 
 
-![Results](pics/grayscasobelle.png)
+![Results](pics/sobel.png)
