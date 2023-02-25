@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <algorithm>
 #include "FreeImage.h"
 #include "../inc/mykernel_pixel_saturation.h"
 #include "../inc/mykernel_horizontal_symmetry.h"
@@ -82,8 +83,21 @@ int main (int argc , char** argv)
   /* END Question 9 */
 
   /* Question 10 */
-  run_sobel_filter(d_img, width, height, BLOCK_WIDTH);
+  //run_sobel_filter(d_img, width, height, BLOCK_WIDTH);
   /* END Question 10 */
+
+  /* Question 11 - a */
+
+  // Initialize the resized output matrix
+  unsigned width_out = width / 3;
+  unsigned height_out = height / 3;
+  unsigned int* d_img_out = new unsigned int[3 * width_out * height_out]; // allocate array "d_img_out"
+  std::fill(d_img_out, d_img_out + (3 * width_out * height_out), 0);  // Fill "d_img_out" with zeros
+
+  run_resize_image(d_img, d_img_out, width, height, width_out, height_out, BLOCK_WIDTH);
+
+  /* END Question 11 - a */
+
 
   /* Copy back */
   memcpy(img, d_img, 3 * width * height * sizeof(unsigned int));
