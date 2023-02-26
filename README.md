@@ -66,7 +66,8 @@ Both kernel versions using global and shared memory are applied. Fixing the thre
 
 ### Question 11-a: Resizing the image
 
-In this question, the image is resized according to a scale factor *SCALE_FACTOR*. In the implemented code, the scale factor is set to 0.5. his question is implemented in *src/mykernel_resize.cu* and *inc/mykernel_resize.h*. The result is given below.
+In this question, the image is resized according to a scale factor *SCALE_FACTOR*. In the implemented code, the scale factor is set to 0.5. his question is implemented in *src/mykernel_resize.cu* and *inc/mykernel_resize.h*. The result is given below. 
+Note: In case you want to execute this code, uncomment code lines between "Question 11-a" and "END Question 11 - a" and comment the rest of the code lines in *src/modif_img.cpp*.
 
 ![Results](pics/resize.png)
 
