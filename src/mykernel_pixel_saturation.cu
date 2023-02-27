@@ -9,10 +9,12 @@ __global__ void pixel_saturation(unsigned int *img, unsigned width, unsigned hei
   int idx_col = threadIdx.x + blockIdx.x * blockDim.x;
   int idx_line = threadIdx.y + blockIdx.y * blockDim.y;
 
+  // Calculate the thread index
   int idx = ((idx_line * width) + idx_col) * 3;
+
   if ((idx_col < width) && (idx_line < height)){
 
-    unsigned int pixel = 255;
+    unsigned int pixel = 255; //max
 
     // Saturation of the red pixel
     if (saturation == 0){
@@ -37,7 +39,7 @@ void run_pixel_saturation(unsigned int *d_img, unsigned width, unsigned height, 
     //cudaMalloc((void **)&dk_img, );
     CUDA_VERIF(cudaMalloc((void **)&dk_img, sizeof(unsigned int) * 3 * width * height));
   
-    // Transfer data from GPU to CPU
+    // Transfer data from CPU to GPU
     //cudaMemcpy(dk_img, d_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice);
     CUDA_VERIF(cudaMemcpy(dk_img, d_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
   
@@ -71,7 +73,7 @@ void run_pixel_saturation(unsigned int *d_img, unsigned width, unsigned height, 
     pixel_saturation<<<grid_size, block_size>>>(dk_img, width, height, saturation);
     CUDA_VERIF(cudaDeviceSynchronize()); //synchronization
 
-    // Transfer data from CPU to GPU
+    // Transfer data back from GPU to CPU
     //cudaMemcpy(d_img, dk_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost);
     CUDA_VERIF(cudaMemcpy(d_img, dk_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
 

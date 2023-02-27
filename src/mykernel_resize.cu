@@ -55,7 +55,7 @@ void run_resize_image(unsigned int *d_img_in, unsigned int *d_img_out, unsigned 
     CUDA_VERIF(cudaMalloc((void **)&dk_img_int, sizeof(unsigned int) * 3 * width_init * height_init));
     CUDA_VERIF(cudaMalloc((void **)&dk_img_out, sizeof(unsigned int) * 3 * width_out * height_out));
 
-    // Transfer data from GPU to CPU
+    // Transfer data from CPU to GPU
     CUDA_VERIF(cudaMemcpy(dk_img_int, d_img_in, sizeof(unsigned int) * 3 * width_init * height_init, cudaMemcpyHostToDevice));
     CUDA_VERIF(cudaMemcpy(dk_img_out, d_img_out, sizeof(unsigned int) * 3 * width_out * height_out, cudaMemcpyHostToDevice));
 
@@ -84,7 +84,7 @@ void run_resize_image(unsigned int *d_img_in, unsigned int *d_img_out, unsigned 
     resize_image<<<grid_size, block_size>>>(dk_img_int, dk_img_out, width_init, height_init, width_out, height_out);
     CUDA_VERIF(cudaDeviceSynchronize()); //synchronization
 
-    // Transfer data from CPU to GPU
+    // Transfer data from GPU to CPU
     CUDA_VERIF(cudaMemcpy(d_img_out, dk_img_out, sizeof(unsigned int) * 3 * width_out * height_out, cudaMemcpyDeviceToHost));
 
     // Free allocated memory on GPU

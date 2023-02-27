@@ -9,9 +9,12 @@ __global__ void horizontal_symmetry(unsigned int *img, unsigned int *tmp, unsign
     int idx_col = threadIdx.x + blockIdx.x * blockDim.x;
     int idx_line = threadIdx.y + blockIdx.y * blockDim.y;
 
+    // Calculate the thread  index
     int idx = ((idx_line * width) + idx_col) * 3;
+
+    // Calculate the symmetry index
     //int mirror_idx = ((idx_line * width) + (width - idx_col - 1)) * 3; //vertical
-    int mirror_idx = ((height - 1 - idx_line) * width + idx_col) * 3;
+    int mirror_idx = ((height - 1 - idx_line) * width + idx_col) * 3; //Horizontal
 
     if ((idx_col < width) && (idx_line < height)){
 
@@ -31,7 +34,7 @@ void run_horizontal_symmetry(unsigned int *d_img, unsigned int *d_tmp, unsigned 
     CUDA_VERIF(cudaMalloc((void **)&dk_img, sizeof(unsigned int) * 3 * width * height));
     CUDA_VERIF(cudaMalloc((void **)&dk_tmp, sizeof(unsigned int) * 3 * width * height));
   
-    // Transfer data from GPU to CPU
+    // Transfer data from CPU to GPU
     CUDA_VERIF(cudaMemcpy(dk_img, d_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
     CUDA_VERIF(cudaMemcpy(dk_tmp, d_tmp, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
   
@@ -60,7 +63,7 @@ void run_horizontal_symmetry(unsigned int *d_img, unsigned int *d_tmp, unsigned 
     horizontal_symmetry<<<grid_size, block_size>>>(dk_img, dk_tmp, width, height);
     CUDA_VERIF(cudaDeviceSynchronize()); //synchronization
 
-    // Transfer data from CPU to GPU
+    // Transfer data back from GPU to CPU
     CUDA_VERIF(cudaMemcpy(d_img, dk_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
     CUDA_VERIF(cudaMemcpy(d_tmp, dk_tmp, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
 

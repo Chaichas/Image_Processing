@@ -33,7 +33,7 @@ void run_grayscale_image(unsigned int *d_img, unsigned width, unsigned height, u
     unsigned int *dk_img;
     CUDA_VERIF(cudaMalloc((void **)&dk_img, sizeof(unsigned int) * 3 * width * height));
   
-    // Transfer data from GPU to CPU
+    // Transfer data from CPU to GPU
     CUDA_VERIF(cudaMemcpy(dk_img, d_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
   
     /*
@@ -57,11 +57,11 @@ void run_grayscale_image(unsigned int *d_img, unsigned width, unsigned height, u
     dim3 grid_size(nb_block_x, nb_block_y);
     dim3 block_size(BLOCK_WIDTH, BLOCK_WIDTH);
 
-    // Calling "blur_image" kernel
+    // Calling "grayscale_image" kernel
     grayscale_image<<<grid_size, block_size>>>(dk_img, width, height);
     CUDA_VERIF(cudaDeviceSynchronize()); //synchronization
 
-    // Transfer data from CPU to GPU
+    // Transfer data from GPU to CPU
     CUDA_VERIF(cudaMemcpy(d_img, dk_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
 
     // Free allocated memory on GPU

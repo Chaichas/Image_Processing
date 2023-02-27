@@ -11,7 +11,7 @@ __global__ void blur_image(unsigned int *img, unsigned width, unsigned height){
 
     if ((idx_col < width) && (idx_line < height)){
 
-        // Thread index
+        // Calculate the thread index
         int idx = ((idx_line * width) + idx_col) * 3;
 
         // Initialization
@@ -21,7 +21,7 @@ __global__ void blur_image(unsigned int *img, unsigned width, unsigned height){
         unsigned int sum_G = 0;
         unsigned int sum_B = 0;
 
-        // loop on neighboring pixels
+        // Loop on neighboring pixels
         for(int i = -BLUR_FILTER_RADIUS; i <= BLUR_FILTER_RADIUS; i++){
             for (int j = -BLUR_FILTER_RADIUS; j <= BLUR_FILTER_RADIUS; j++){
 
@@ -59,7 +59,7 @@ void run_blur_image(unsigned int *d_img, unsigned width, unsigned height, unsign
     unsigned int *dk_img;
     CUDA_VERIF(cudaMalloc((void **)&dk_img, sizeof(unsigned int) * 3 * width * height));
     
-    // Transfer data from GPU to CPU
+    // Transfer data from CPU to GPU
     CUDA_VERIF(cudaMemcpy(dk_img, d_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
     
     /*
@@ -87,7 +87,7 @@ void run_blur_image(unsigned int *d_img, unsigned width, unsigned height, unsign
     blur_image<<<grid_size, block_size>>>(dk_img, width, height);
     CUDA_VERIF(cudaDeviceSynchronize()); //synchronization
 
-    // Transfer data from CPU to GPU
+    // Transfer data back from GPU to CPU
     CUDA_VERIF(cudaMemcpy(d_img, dk_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
 
     // Free allocated memory on GPU

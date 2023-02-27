@@ -17,12 +17,8 @@
   } \
 }
 
-// Define angle in deg
-#define ANGLE 80
-#define PI 3.14159265358979323846
+/* Question 14 */
 
-/* Question 11-b */
+void run_kernel_popArt_4streams(unsigned int *d_img, unsigned int* d_tmp,  unsigned width, unsigned height, unsigned BLOCK_WIDTH);
 
-void run_image_rotation(unsigned int *d_img, unsigned int *d_img_out, unsigned width, unsigned height, float angle_rad, unsigned BLOCK_WIDTH);
-
-/* END Question 11-b */
+/* END Question 14 */

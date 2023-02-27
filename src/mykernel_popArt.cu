@@ -1,21 +1,22 @@
 /* Question 12 */
  
 #include "../inc/mykernel_popArt.h"
-#include <curand_kernel.h>
 
 /*  popArt kernel ; Inspired from the original given code */
 __global__ void kernel_popArt_Warhol(unsigned int* d_img, unsigned int* d_tmp, unsigned int height,unsigned int width){
    
+    // Calculate the thread indices within a 2D grid
     int idx_col = threadIdx.x + blockDim.x * blockIdx.x;
     int idx_row = threadIdx.y + blockDim.y * blockIdx.y;
 
+    // Calculate thread index
     int idx = ((idx_row * width) + idx_col) * 3;
 
     // Quadrant of pixels position
     bool bottom_left = (idx_col < (width/2)) && (idx_row < (height/2));
-    bool bottom_right = ((idx_row < height / 2) && (width / 2 < idx_col) && (idx_col < width));
-    bool top_left = ((height / 2 < idx_row) && (idx_row < height) && (idx_col < width / 2));
-    bool top_right = ((height / 2 < idx_row) && (idx_row < height) && (width / 2 < idx_col) && (idx_col < width));
+    bool bottom_right = ((idx_row < height / 2) && (width / 2 <= idx_col) && (idx_col < width));
+    bool top_left = ((height / 2 <= idx_row) && (idx_row < height) && (idx_col < width / 2));
+    bool top_right = ((height / 2 <= idx_row) && (idx_row < height) && (width / 2 <= idx_col) && (idx_col < width));
 
     // Flip the image vertically
     if (idx_col<width && idx_row < height)
@@ -27,7 +28,7 @@ __global__ void kernel_popArt_Warhol(unsigned int* d_img, unsigned int* d_tmp, u
         
     }
 
-    // Bottom left
+    // Bottom left frame
     if (bottom_left)
     {
         d_img[idx + 0] /= 2;
@@ -35,7 +36,7 @@ __global__ void kernel_popArt_Warhol(unsigned int* d_img, unsigned int* d_tmp, u
         d_img[idx + 2] = 0xFF / 1.5; //bluish teint
     }
 
-    // Bottom right
+    // Bottom right frame
     if (bottom_right) 
     {
         int grey = d_img[idx + 0] * 0.299 + d_img[idx + 1] * 0.587 + d_img[idx + 2] * 0.114;
@@ -44,7 +45,7 @@ __global__ void kernel_popArt_Warhol(unsigned int* d_img, unsigned int* d_tmp, u
         d_img[idx + 2] = grey;
     }
 
-    // Top left
+    // Top left frame
     if (top_left)
     {
         d_img[idx + 0] = 0xFF / 2; //redish teint
@@ -52,7 +53,7 @@ __global__ void kernel_popArt_Warhol(unsigned int* d_img, unsigned int* d_tmp, u
         d_img[idx + 2] /= 2;       
     }
 
-    // Top right
+    // Top right frame
     if (top_right)
     {
         d_img[idx + 0] = 0xFF - d_img[idx + 0];
@@ -63,21 +64,21 @@ __global__ void kernel_popArt_Warhol(unsigned int* d_img, unsigned int* d_tmp, u
 
 /*  Run of the popArt kernel */
 void run_kernel_popArt(unsigned int *d_img, unsigned int* d_tmp,  unsigned width, unsigned height, unsigned BLOCK_WIDTH) {
-    
-    // Memory allocation
-    unsigned int *dk_img;
-    unsigned int *dk_tmp;
 
     // CUDA events to measure the execution time of the popArt kernel
     cudaEvent_t start,stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
 
-    // Memory allocation on device (GPU)
+    cudaEventRecord(start); //start
+
+    // Memory allocation on GPU
+    unsigned int *dk_img;
+    unsigned int *dk_tmp;
     CUDA_VERIF(cudaMalloc((void **)&dk_img, sizeof(unsigned int) * 3 * width * height));
     CUDA_VERIF(cudaMalloc((void **)&dk_tmp, sizeof(unsigned int) * 3 * width * height));
 
-    // Transfer data from GPU to CPU
+    // Transfer data from CPU to GPU
     CUDA_VERIF(cudaMemcpy(dk_img, d_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
     CUDA_VERIF(cudaMemcpy(dk_tmp, d_tmp, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
   
@@ -103,13 +104,14 @@ void run_kernel_popArt(unsigned int *d_img, unsigned int* d_tmp,  unsigned width
     dim3 block_size(BLOCK_WIDTH, BLOCK_WIDTH);
 
     // Calling "popArt" kernel
-    cudaEventRecord(start);
     kernel_popArt_Warhol<<<grid_size, block_size>>>(dk_img, dk_tmp, height, width);
-    cudaEventRecord(stop);
     
-    // Transfer data from CPU to GPU
+    // Transfer data back from GPU to CPU
     CUDA_VERIF(cudaMemcpy(d_img, dk_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
 
+    cudaEventRecord(stop); //stop
+
+    // Measure elapsed time
     cudaEventSynchronize(stop);
     float elapsed_ms = 0;
     cudaEventElapsedTime(&elapsed_ms, start, stop);

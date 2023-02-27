@@ -11,6 +11,7 @@
 #include "../inc/mykernel_resize.h"
 #include "../inc/mykernel_rotation.h"
 #include "../inc/mykernel_popArt.h"
+#include "../inc/mykernel_popArt_4streams.h"
 
 // Define the block width of the grid (unsigned)
 #define BLOCK_WIDTH 32
@@ -71,37 +72,38 @@ int main (int argc , char** argv)
   /* Kernels (GPU) */
   
   /*****************************************************************************/
-  /* Question 6 */
+  /* Question 6 : Pixel saturation */
   //run_pixel_saturation(d_img, width, height, BLOCK_WIDTH);
   /* END Question 6 */
   /*****************************************************************************/
 
   /*****************************************************************************/  
-  /* Question 7 */
+  /* Question 7 : Horizontal symmetry */
   //run_horizontal_symmetry(d_img, d_tmp, width, height, BLOCK_WIDTH);
   /* END Question 7 */
   /*****************************************************************************/
 
   /*****************************************************************************/
-  /* Question 8 */
+  /* Question 8 : Blur image */
   //run_blur_image(d_img, width, height, BLOCK_WIDTH);
   /* END Question 8 */
   /*****************************************************************************/
 
   /*****************************************************************************/
-  /* Question 9 */
+  /* Question 9 : Grayscale image */
   //run_grayscale_image(d_img, width, height, BLOCK_WIDTH);
   /* END Question 9 */
   /*****************************************************************************/
 
   /*****************************************************************************/
-  /* Question 10 */
+  /* Question 10 : Sobel filter */
   //run_sobel_filter(d_img, width, height, BLOCK_WIDTH);
   /* END Question 10 */
   /*****************************************************************************/
 
   /*****************************************************************************/
-  /* Question 11 - a : To run this comment the rest of the code below (END Question 11 - a ) */
+  /* Question 11 - a : To run this, uncomment this block & comment the rest of the code below (from : END Question 11 - a till the end) */
+  /* RESIZING of the image */
 
   /* Initialize the resized output matrix : Uncomment to run */
   // unsigned width_out = (unsigned)(width * SCALE_FACTOR);
@@ -171,7 +173,8 @@ int main (int argc , char** argv)
   /*****************************************************************************/
 
   /*****************************************************************************/
-  /* Question 11 - b */
+  /* Question 11 - b : To run this, uncomment this block & comment the rest of the code below (from : END Question 11 - b till the end) */
+  /* ROTATION of the image */
 
   /* Allocation of output image : Uncomment to run
     * Normally: width_out = (int)(abs(height * sin(angle_rad)) + abs(width * cos(angle_rad)));
@@ -222,11 +225,36 @@ int main (int argc , char** argv)
   /*****************************************************************************/
 
   /*****************************************************************************/
-  /* Question 12 */
-  run_kernel_popArt(d_img, d_tmp, width, height, BLOCK_WIDTH);
+  /* Question 12 : popArt Effect */
+  //run_kernel_popArt(d_img, d_tmp, width, height, BLOCK_WIDTH);
   /* END Question 12 */
   /*****************************************************************************/
-  
+
+  /*****************************************************************************/
+  /* Question 13 : 
+
+    The implemented code divides the image into 4 quadrants, to each modifications will be performed (saturation of the color).
+    While now it is only executed on the default stream, which is stream 0, each (1/4)th of the image could be executed in a different stream,
+    making it a total of 4 streams.
+
+    Default stream (s0) : (t1) : bottom-left -> (t2) : bottom-right -> (t3) : top-left -> (t4) : top-right. 
+    After : (t1) : (s0) = bottom-left, (s1) = bottom-right, (s2) : top-left, (s3) : top-right
+
+    Using 4 streams, the modifications could be executed in parallel. Thus, we can make use of the parallel potentiel of GPU and reduce
+    the amount of computation time.
+
+    Execution of the popArt kernl on the default stream time : 0.001153 s
+    Execution of the popArt kernl on four streams time : ?
+
+    END Question 13 */
+  /*****************************************************************************/
+
+  /*****************************************************************************/
+  /* Question 14 : popArt effect with 4 streams */
+  run_kernel_popArt(d_img, d_tmp, width, height, BLOCK_WIDTH);
+  /* END Question 14 */
+  /*****************************************************************************/
+
   /* Copy back */
   memcpy(img, d_img, 3 * width * height * sizeof(unsigned int));
 

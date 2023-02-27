@@ -17,6 +17,7 @@
   } \
 }
 
+// Define scaling factor
 # define SCALE_FACTOR (0.5)
 
 /* Question 11 -a */
