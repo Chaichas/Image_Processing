@@ -122,3 +122,23 @@ void run_kernel_popArt(unsigned int *d_img, unsigned int* d_tmp,  unsigned width
 }
 
 /* END Question 12 */
+
+/* Question 13 */
+
+/*
+    The implemented code divides the image into 4 quadrants, to each modifications will be performed (saturation of the color).
+    While now it is only executed on the default stream, which is stream 0, each (1/4)th of the image could be executed in a different stream,
+    making it a total of 4 streams.
+
+    Default stream (s0) : (t1) : bottom-left -> (t2) : bottom-right -> (t3) : top-left -> (t4) : top-right. 
+    After : (t1) : (s0) = bottom-left, (s1) = bottom-right, (s2) : top-left, (s3) : top-right
+
+    Using 4 streams, the modifications could be executed in parallel. Thus, we can make use of the parallel potentiel of GPU and reduce
+    the amount of computation time.
+
+    Execution of the popArt kernl on the default stream time : 0.001153 s
+    Execution of the popArt kernl on four streams time : ?
+
+*/
+
+/* END Question 13 */
