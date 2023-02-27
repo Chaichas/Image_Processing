@@ -10,13 +10,13 @@
 #include "../inc/mykernel_sobel.h"
 #include "../inc/mykernel_resize.h"
 #include "../inc/mykernel_rotation.h"
-//#include "../inc/mykernel_popArt.h"
+#include "../inc/mykernel_popArt.h"
 
 // Define the block width of the grid (unsigned)
 #define BLOCK_WIDTH 32
 
-#define WIDTH 1920
-#define HEIGHT 1024*
+#define WIDTH 3840
+#define HEIGHT 2160
 #define BPP 24 // Since we're outputting three 8 bit RGB values => 8*3=24
 
 using namespace std;
@@ -66,29 +66,41 @@ int main (int argc , char** argv)
 
   /* Copy data */
   memcpy(d_img, img, 3 * width * height * sizeof(unsigned int));
+  memcpy(d_tmp, img, 3 * width * height * sizeof(unsigned int));
 
   /* Kernels (GPU) */
   
+  /*****************************************************************************/
   /* Question 6 */
   //run_pixel_saturation(d_img, width, height, BLOCK_WIDTH);
   /* END Question 6 */
+  /*****************************************************************************/
 
+  /*****************************************************************************/  
   /* Question 7 */
   //run_horizontal_symmetry(d_img, d_tmp, width, height, BLOCK_WIDTH);
   /* END Question 7 */
+  /*****************************************************************************/
 
+  /*****************************************************************************/
   /* Question 8 */
   //run_blur_image(d_img, width, height, BLOCK_WIDTH);
   /* END Question 8 */
+  /*****************************************************************************/
 
+  /*****************************************************************************/
   /* Question 9 */
   //run_grayscale_image(d_img, width, height, BLOCK_WIDTH);
   /* END Question 9 */
+  /*****************************************************************************/
 
+  /*****************************************************************************/
   /* Question 10 */
   //run_sobel_filter(d_img, width, height, BLOCK_WIDTH);
   /* END Question 10 */
+  /*****************************************************************************/
 
+  /*****************************************************************************/
   /* Question 11 - a : To run this comment the rest of the code below (END Question 11 - a ) */
 
   /* Initialize the resized output matrix : Uncomment to run */
@@ -156,57 +168,67 @@ int main (int argc , char** argv)
   // free(d_img_out);
 
   /* END Question 11 - a */
+  /*****************************************************************************/
 
+  /*****************************************************************************/
   /* Question 11 - b */
 
-  /* Allocation of output image 
+  /* Allocation of output image : Uncomment to run
     * Normally: width_out = (int)(abs(height * sin(angle_rad)) + abs(width * cos(angle_rad)));
     * Normally: height_out = (int)(abs(width * sin(angle_rad)) + abs(height * cos(angle_rad))); */
-  unsigned int *d_img_out = (unsigned int*) malloc(sizeof(unsigned int) * 3 * width * height);
+  //unsigned int *d_img_out = (unsigned int*) malloc(sizeof(unsigned int) * 3 * width * height);
   
   /* Initialize the output new image to zero : Uncomment to run */
-  memset(d_img_out, 0, sizeof(unsigned int) * 3 * width * height);
+  //memset(d_img_out, 0, sizeof(unsigned int) * 3 * width * height);
 
-  // Conversion of the angle to rad
-  float angle_rad = (ANGLE * PI/ 180);
+  // Conversion of the angle to rad : Uncomment to run
+  //float angle_rad = (ANGLE * PI/ 180);
   
-  // Calling of the image rotation kernel
-  run_image_rotation(d_img, d_img_out, width, height, angle_rad, BLOCK_WIDTH);
+  // Calling of the image rotation kernel : Uncomment to run
+  //run_image_rotation(d_img, d_img_out, width, height, angle_rad, BLOCK_WIDTH);
   
   /* Copy back image : Uncomment to run */
-  memcpy(img, d_img_out, 3 * width * height * sizeof(unsigned int));
+  // memcpy(img, d_img_out, 3 * width * height * sizeof(unsigned int));
 
-  FIBITMAP* newBitmap = FreeImage_Allocate(width, height, BPP);
-  BYTE* newBits = FreeImage_GetBits(newBitmap);
-  for (int y = 0; y < height; y++) {
-    BYTE* pixel = (BYTE*)newBits;
-    for (int x = 0; x < width; x++) {
-      int idx = ((y * width) + x) * 3;
-      pixel[FI_RGBA_RED] = img[idx + 0]; // red                                                      
-      pixel[FI_RGBA_GREEN] = img[idx + 1]; // green                                                  
-      pixel[FI_RGBA_BLUE] = img[idx + 2]; // blue                                                    
-      pixel += 3;
-    }
-    newBits += FreeImage_GetPitch(newBitmap);
-  }
+  // FIBITMAP* newBitmap = FreeImage_Allocate(width, height, BPP);
+  // BYTE* newBits = FreeImage_GetBits(newBitmap);
+  // for (int y = 0; y < height; y++) {
+  //   BYTE* pixel = (BYTE*)newBits;
+  //   for (int x = 0; x < width; x++) {
+  //     int idx = ((y * width) + x) * 3;
+  //     pixel[FI_RGBA_RED] = img[idx + 0]; // red                                                      
+  //     pixel[FI_RGBA_GREEN] = img[idx + 1]; // green                                                  
+  //     pixel[FI_RGBA_BLUE] = img[idx + 2]; // blue                                                    
+  //     pixel += 3;
+  //   }
+  //   newBits += FreeImage_GetPitch(newBitmap);
+  // }
+
   /* Save the image as a PNG file : Uncomment to run */
-  if (FreeImage_Save(FIF_PNG, newBitmap, PathDest, 0))
-  {
-    cout << "Image successfully saved ! " << endl;
-  }
-  FreeImage_DeInitialise(); //Cleanup !                                                           
+  // if (FreeImage_Save(FIF_PNG, newBitmap, PathDest, 0))
+  // {
+  //   cout << "Image successfully saved ! " << endl;
+  // }
+  // FreeImage_DeInitialise(); //Cleanup !                                                           
 
 
   /* Free allocated memory on CPU : Uncomment to run */
-  free(img);
-  free(d_img);
-  free(d_tmp);
-  free(d_img_out);
+  // free(img);
+  // free(d_img);
+  // free(d_tmp);
+  // free(d_img_out);
 
   /* END Question 11 - b */
+  /*****************************************************************************/
 
+  /*****************************************************************************/
+  /* Question 12 */
+  run_kernel_popArt(d_img, d_tmp, width, height, BLOCK_WIDTH);
+  /* END Question 12 */
+  /*****************************************************************************/
+  
   /* Copy back */
-  /*memcpy(img, d_img, 3 * width * height * sizeof(unsigned int));
+  memcpy(img, d_img, 3 * width * height * sizeof(unsigned int));
 
   bits = (BYTE*)FreeImage_GetBits(bitmap);
   for ( int y =0; y<height; y++)
@@ -228,17 +250,17 @@ int main (int argc , char** argv)
     }
     // next line
     bits += pitch;
-  }*/
+  }
 
   /* Save the image as a PNG file */
-  /*if( FreeImage_Save (FIF_PNG, bitmap , PathDest , 0 ))
+  if( FreeImage_Save (FIF_PNG, bitmap , PathDest , 0 ))
     cout << "Image successfully saved ! " << endl ;
-  FreeImage_DeInitialise(); //Cleanup !*/
+  FreeImage_DeInitialise(); //Cleanup !
  
   /* Free allocated memory on CPU */
-  /*free(img);
+  free(img);
   free(d_img);
-  free(d_tmp);*/
+  free(d_tmp);
 
   return 0;
 
