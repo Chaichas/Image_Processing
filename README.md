@@ -86,6 +86,12 @@ In this question, we apply (c-255) to each component of the pixel c. This questi
 
 ![Results](pics/diapositive.png)
 
+### Question 11 - d: Keeping only one null pixel component
+
+In this question, we keep only one null pixel component (red) while the other pixel components (green, blue) are null. This question is implemented in *src/mykernel_one_pixel.cu* and *inc/mykernel_one_pixel.h*. The resulting image is shown here-under.
+
+![Results](pics/one_pixel.png)
+
 ### Question 12: PopArt effect
 
 In this question, the image is divided into 4 equal frames, each is modified differently. This question is implemented in *src/mykernel_popArt.cu* and *inc/mykernel_popArt.h*.

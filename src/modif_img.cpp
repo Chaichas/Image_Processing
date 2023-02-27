@@ -13,6 +13,7 @@
 #include "../inc/mykernel_diapositive.h"
 #include "../inc/mykernel_popArt.h"
 #include "../inc/mykernel_popArt_4streams.h"
+#include "../inc/mykernel_one_pixel.h"
 
 // Define the block width of the grid (unsigned)
 #define BLOCK_WIDTH 32
@@ -227,8 +228,14 @@ int main (int argc , char** argv)
 
   /*****************************************************************************/
   /* Question 11 - c : Diapositive effect */
-  run_diapositive_effect(d_img, width, height, BLOCK_WIDTH);
+  //run_diapositive_effect(d_img, width, height, BLOCK_WIDTH);
   /* END Question 11 - c */
+  /*****************************************************************************/
+
+  /*****************************************************************************/
+  /* Question 11 - d : Keep only one pixel component */
+  run_one_pixel(d_img, width, height, BLOCK_WIDTH);
+  /* END Question 11 - d */
   /*****************************************************************************/
 
   /*****************************************************************************/
