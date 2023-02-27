@@ -40,6 +40,12 @@ __global__ void image_rotation(unsigned int *img, unsigned int *img_out, unsigne
 /*  Run of the rotated image kernel */
 void run_image_rotation(unsigned int *d_img, unsigned int *d_img_out, unsigned width, unsigned height, float angle_rad, unsigned BLOCK_WIDTH) {
     
+    // CUDA events to measure the execution time of the popArt kernel
+    /*cudaEvent_t start,stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start); */
+
     // Memory allocation on device (GPU)
     unsigned int *dk_img;
     unsigned int *dk_img_out;
@@ -78,6 +84,12 @@ void run_image_rotation(unsigned int *d_img, unsigned int *d_img_out, unsigned w
     // Transfer data from GPU to CPU
     CUDA_VERIF(cudaMemcpy(d_img_out, dk_img_out, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
 
+    /*cudaEventRecord(stop); 
+    cudaEventSynchronize(stop);
+    float elapsed_ms = 0;
+    cudaEventElapsedTime(&elapsed_ms, start, stop);
+    printf("Image of size: %dx%d\n\tExecuted with time: %f s\n", width, height, elapsed_ms/1000); */
+    
     // Free allocated memory on GPU
     cudaFree(dk_img);
     cudaFree(dk_img_out);

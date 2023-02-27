@@ -49,6 +49,12 @@ __global__ void resize_image(unsigned int* img_in, unsigned int* img_out, unsign
 /*  Run of the resize image kernel */
 void run_resize_image(unsigned int *d_img_in, unsigned int *d_img_out, unsigned width_init, unsigned height_init, unsigned width_out, unsigned height_out, unsigned BLOCK_WIDTH) {
 
+    // CUDA events to measure the execution time of the popArt kernel
+    /*cudaEvent_t start,stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start); */
+    
     // Memory allocation on device (GPU)
     unsigned int *dk_img_int; //input image
     unsigned int *dk_img_out; //output image
@@ -86,6 +92,12 @@ void run_resize_image(unsigned int *d_img_in, unsigned int *d_img_out, unsigned 
 
     // Transfer data from GPU to CPU
     CUDA_VERIF(cudaMemcpy(d_img_out, dk_img_out, sizeof(unsigned int) * 3 * width_out * height_out, cudaMemcpyDeviceToHost));
+
+    /*cudaEventRecord(stop); 
+    cudaEventSynchronize(stop);
+    float elapsed_ms = 0;
+    cudaEventElapsedTime(&elapsed_ms, start, stop);
+    printf("Image of size: %dx%d\n\tExecuted with time: %f s\n", width, height, elapsed_ms/1000); */
 
     // Free allocated memory on GPU
     cudaFree(dk_img_int);

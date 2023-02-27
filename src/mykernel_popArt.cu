@@ -138,9 +138,6 @@ void run_kernel_popArt(unsigned int *d_img, unsigned int* d_tmp,  unsigned width
     Using 4 streams, the modifications could be executed in parallel. Thus, we can make use of the parallel potentiel of GPU and reduce
     the amount of computation time.
 
-    Execution of the popArt kernl on the default stream time : 0.001153 s
-    Execution of the popArt kernl on four streams time : ?
-
 */
 
 /* END Question 13 */

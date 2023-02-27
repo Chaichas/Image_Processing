@@ -159,6 +159,12 @@ __global__ void sobel_filter(unsigned int *img, unsigned width, unsigned height)
 void run_sobel_filter(unsigned int *d_img, unsigned width, unsigned height, unsigned BLOCK_WIDTH)
 {
 
+    // CUDA events to measure the execution time of the popArt kernel
+    /*cudaEvent_t start,stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start); */
+    
     // Memory allocation on device (GPU)
     unsigned int *dk_img;
     CUDA_VERIF(cudaMalloc((void **)&dk_img, sizeof(unsigned int) * 3 * width * height));
@@ -195,6 +201,12 @@ void run_sobel_filter(unsigned int *d_img, unsigned width, unsigned height, unsi
 
     // Transfer data from GPU to CPU
     CUDA_VERIF(cudaMemcpy(d_img, dk_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
+
+    /*cudaEventRecord(stop); 
+    cudaEventSynchronize(stop);
+    float elapsed_ms = 0;
+    cudaEventElapsedTime(&elapsed_ms, start, stop);
+    printf("Image of size: %dx%d\n\tExecuted with time: %f s\n", width, height, elapsed_ms/1000); */
 
     // Free allocated memory on GPU
     cudaFree(dk_img);
