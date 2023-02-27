@@ -65,7 +65,7 @@ __global__ void kernel_popArt_Warhol(unsigned int* d_img, unsigned int* d_tmp, u
 /*  Run of the popArt kernel */
 void run_kernel_popArt(unsigned int *d_img, unsigned int* d_tmp,  unsigned width, unsigned height, unsigned BLOCK_WIDTH) {
 
-    // CUDA events to measure the execution time of the popArt kernel
+    // CUDA events to measure the execution time of the kernel
     cudaEvent_t start,stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);

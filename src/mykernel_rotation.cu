@@ -40,7 +40,7 @@ __global__ void image_rotation(unsigned int *img, unsigned int *img_out, unsigne
 /*  Run of the rotated image kernel */
 void run_image_rotation(unsigned int *d_img, unsigned int *d_img_out, unsigned width, unsigned height, float angle_rad, unsigned BLOCK_WIDTH) {
     
-    // CUDA events to measure the execution time of the popArt kernel
+    // CUDA events to measure the execution time of the kernel
     /*cudaEvent_t start,stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);

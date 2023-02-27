@@ -67,6 +67,7 @@ Both kernel versions using global and shared memory are applied. Fixing the thre
 ### Question 11-a: Resizing the image (for fun)
 
 In this question, the image is resized according to a scale factor *SCALE_FACTOR*. In the implemented code, the scale factor is set to 0.5. his question is implemented in *src/mykernel_resize.cu* and *inc/mykernel_resize.h*. The result is given below. 
+
 Note: In case you want to execute this code, uncomment code lines between "Question 11-a" and "END Question 11 - a" and comment the rest of the code lines in *src/modif_img.cpp*.
 
 ![Results](pics/resize.png)
@@ -74,9 +75,16 @@ Note: In case you want to execute this code, uncomment code lines between "Quest
 ### Question 11-b: Image rotation
 
 In this question, the image is rotated with an angle in deg. In the implemented code, the angle is set to 80deg. This question is implemented in *src/mykernel_rotation.cu* and *inc/mykernel_rotation.h*. For an example for rotation (angle 90 and 80 degrees), the result is given below. It should be noted that thought the rotation is done, the new width and height of the image are not computed correctly. The formula were given in a comment, however due to limited time no further investigation has been performed.
+
 Note: In case you want to execute this code, uncomment code lines between "Question 11-b" and "END Question 11 - b" and comment the rest of the code lines in *src/modif_img.cpp*.
 
 ![Results](pics/rotation.png)
+
+### Question 11 - c: Diapositive effect
+
+In this question, we apply (c-255) to each component of the pixel c. This question is implemented in *src/mykernel_diapositive.cu* and *inc/mykernel_diapositive.h*. The resulting image is shown here-under.
+
+![Results](pics/diapositive.png)
 
 ### Question 12: PopArt effect
 
@@ -93,7 +101,7 @@ The implemented code divides the image into 4 quadrants, to each modifications w
 
 Using 4 streams, the modifications could be executed in parallel. Thus, we can make use of the parallel potentiel of GPU and reduce the amount of computation time.
 
-### Question 12: PopArt effect with 4 streams
+### Question 14: PopArt effect with 4 streams
 
 In this question, the image is divided into 4 equal frames, where each stream applied modifications on one frame. This question is implemented in *src/mykernel_popArt_4streams.cu* and *inc/mykernel_popArt_4streams.h*.
 

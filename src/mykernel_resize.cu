@@ -49,7 +49,7 @@ __global__ void resize_image(unsigned int* img_in, unsigned int* img_out, unsign
 /*  Run of the resize image kernel */
 void run_resize_image(unsigned int *d_img_in, unsigned int *d_img_out, unsigned width_init, unsigned height_init, unsigned width_out, unsigned height_out, unsigned BLOCK_WIDTH) {
 
-    // CUDA events to measure the execution time of the popArt kernel
+    // CUDA events to measure the execution time of the kernel
     /*cudaEvent_t start,stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);

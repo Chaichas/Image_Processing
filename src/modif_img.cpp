@@ -10,6 +10,7 @@
 #include "../inc/mykernel_sobel.h"
 #include "../inc/mykernel_resize.h"
 #include "../inc/mykernel_rotation.h"
+#include "../inc/mykernel_diapositive.h"
 #include "../inc/mykernel_popArt.h"
 #include "../inc/mykernel_popArt_4streams.h"
 
@@ -225,6 +226,12 @@ int main (int argc , char** argv)
   /*****************************************************************************/
 
   /*****************************************************************************/
+  /* Question 11 - c : Diapositive effect */
+  run_diapositive_effect(d_img, width, height, BLOCK_WIDTH);
+  /* END Question 11 - c */
+  /*****************************************************************************/
+
+  /*****************************************************************************/
   /* Question 12 : popArt Effect */
   //run_kernel_popArt(d_img, d_tmp, width, height, BLOCK_WIDTH);
   /* END Question 12 */
@@ -248,7 +255,7 @@ int main (int argc , char** argv)
 
   /*****************************************************************************/
   /* Question 14 : popArt effect with 4 streams */
-  run_kernel_popArt(d_img, d_tmp, width, height, BLOCK_WIDTH);
+  //run_kernel_popArt(d_img, d_tmp, width, height, BLOCK_WIDTH);
   /* END Question 14 */
   /*****************************************************************************/
 

@@ -1,48 +1,43 @@
-/* Question 7 */
+/* Question 11 - c : Diapositive effect */
 
-#include "../inc/mykernel_horizontal_symmetry.h"
+#include "../inc/mykernel_diapositive.h"
 
-/*  Horizontal symmetry kernel on GPU */
-__global__ void horizontal_symmetry(unsigned int *img, unsigned int *tmp, unsigned width, unsigned height){
-  
+/*  Diapositive effect kernel on GPU */
+__global__ void diapositive_effect(unsigned int *img, unsigned int width, unsigned int height){
+    
     // Calculate the thread indices within a 2D grid
-    int idx_col = threadIdx.x + blockIdx.x * blockDim.x;
-    int idx_line = threadIdx.y + blockIdx.y * blockDim.y;
+    int idx_col = threadIdx.x + blockDim.x * blockIdx.x;
+    int idx_line = threadIdx.y + blockDim.y * blockIdx.y;
 
-    // Calculate the thread  index
+    // Calculate the thread index
     int idx = ((idx_line * width) + idx_col) * 3;
 
-    // Calculate the symmetry index
-    //int mirror_idx = ((idx_line * width) + (width - idx_col - 1)) * 3; //vertical
-    int mirror_idx = ((height - 1 - idx_line) * width + idx_col) * 3; //Horizontal
-
-    if ((idx_col < width) && (idx_line < height)){
-
-        img[idx + 0] = tmp[mirror_idx + 0];
-        img[idx + 1] = tmp[mirror_idx + 1];
-        img[idx + 2] = tmp[mirror_idx + 2];
-
+    // Diapositive effect
+    if ((idx_col < width) && (idx_line < height)) {
+        
+        img[idx + 0] = 255 - img[idx + 0];
+        img[idx + 1] = 255 - img[idx + 1];
+        img[idx + 2] = 255 - img[idx + 2];
     }
+
 }
 
-/*  Run of the horizontal symmetry kernel */
-void run_horizontal_symmetry(unsigned int *d_img, unsigned int *d_tmp, unsigned width, unsigned height, unsigned BLOCK_WIDTH) {
+
+/*  Run of the diapositive effect kernel */
+void run_diapositive_effect(unsigned int *d_img, unsigned width, unsigned height, unsigned BLOCK_WIDTH) {
     
     // CUDA events to measure the execution time of the kernel
     /*cudaEvent_t start,stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
     cudaEventRecord(start); */
-
+    
     // Memory allocation on device (GPU)
     unsigned int *dk_img;
-    unsigned int *dk_tmp;
     CUDA_VERIF(cudaMalloc((void **)&dk_img, sizeof(unsigned int) * 3 * width * height));
-    CUDA_VERIF(cudaMalloc((void **)&dk_tmp, sizeof(unsigned int) * 3 * width * height));
   
     // Transfer data from CPU to GPU
     CUDA_VERIF(cudaMemcpy(dk_img, d_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
-    CUDA_VERIF(cudaMemcpy(dk_tmp, d_tmp, sizeof(unsigned int) * 3 * width * height, cudaMemcpyHostToDevice));
   
     /*
         - Define the x-dimension of the grid
@@ -65,13 +60,12 @@ void run_horizontal_symmetry(unsigned int *d_img, unsigned int *d_tmp, unsigned 
     dim3 grid_size(nb_block_x, nb_block_y);
     dim3 block_size(BLOCK_WIDTH, BLOCK_WIDTH);
 
-    // Calling "horizontal_symmetry" kernel
-    horizontal_symmetry<<<grid_size, block_size>>>(dk_img, dk_tmp, width, height);
+    // Calling "diapositive_effect" kernel
+    diapositive_effect<<<grid_size, block_size>>>(dk_img, width, height);
     CUDA_VERIF(cudaDeviceSynchronize()); //synchronization
 
-    // Transfer data back from GPU to CPU
+    // Transfer data from GPU to CPU
     CUDA_VERIF(cudaMemcpy(d_img, dk_img, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
-    CUDA_VERIF(cudaMemcpy(d_tmp, dk_tmp, sizeof(unsigned int) * 3 * width * height, cudaMemcpyDeviceToHost));
 
     /*cudaEventRecord(stop); 
     cudaEventSynchronize(stop);
@@ -81,8 +75,7 @@ void run_horizontal_symmetry(unsigned int *d_img, unsigned int *d_tmp, unsigned 
 
     // Free allocated memory on GPU
     cudaFree(dk_img);
-    cudaFree(dk_tmp);
 
 }
 
-/* END Question 7 */
+/* END Question 11 - c */

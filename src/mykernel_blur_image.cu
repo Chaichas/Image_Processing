@@ -55,7 +55,7 @@ __global__ void blur_image(unsigned int *img, unsigned width, unsigned height){
 /*  Run of the blur image kernel */
 void run_blur_image(unsigned int *d_img, unsigned width, unsigned height, unsigned BLOCK_WIDTH) {
     
-    // CUDA events to measure the execution time of the popArt kernel
+    // CUDA events to measure the execution time of the kernel
     /*cudaEvent_t start,stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
