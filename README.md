@@ -1,4 +1,4 @@
-# Image_Processing
+# Image_Processing : README
 This project is held during the APM (Architecture et programmation d'accélérateurs) lectures and aimed at image processing using GPU (CUDA).
 
 - Realised by : Aicha Maaoui (Myself). 
@@ -71,25 +71,25 @@ The program content is described as follows :
 
 This question consists in saturating each pixel of the input test image among R (Red), G (Green) or B (Blue). To do this, an integer variable "saturation" is defined and takes the values: 0 if R, 1 if G or 2 if G. This question is implemented in *src/mykernel_pixel_saturation.cu* and *inc/mykernel_pixel_saturation.h*. The execution of the program leads to the following results:
 
-![Results](pics/saturation.png)
+![Question 6 : Pixels Saturation of the image](pics/saturation.png)
 
 ### Question 7 : Horizontal Symmetry of the image
 
 This question consists in doing an horizontal symmetry of an input image, in our case the test image. The output image after the code execution is an horizontally symmetric image as shown hereunder. This question is implemented in *src/mykernel_horizontal_symmetry.cu* and *inc/mykernel_horizontal_symmetry.h*.
 
-![Results](pics/symetrie_horizontale.png)
+![Question 7 : Horizontal Symmetry of the image](pics/symetrie_horizontale.png)
 
 ### Question 8 : Blur image
 
 In this question, the kernel making a blur on the image is implemented. To do so, the value of a pixel is updated using the average values of this later and its neighbors, as shown in the figure below. This question is implemented in *src/mykernel_blur_image.cu* and *inc/mykernel_blur_image.h*.
 
-![Results](pics/blurred_img.png)
+![Question 8 : Blur image](pics/blurred_img.png)
 
 ### Question 9 : Grayscaled image
 
 In this question, the initial image is modified into a grayscaled one. The result is given hereunder. This question is implemented in *src/mykernel_grayscale.cu* and *inc/mykernel_grayscale.h*.
 
-![Results](pics/grayscale.png)
+![Question 9 : Grayscaled image](pics/grayscale.png)
 
 ### Question 10 : Sobel Filter
 
@@ -97,7 +97,7 @@ In this question, the sobel filter is applied to modify the image in such a way 
 
 Both kernel versions using global and shared memory are applied. Fixing the threshold, determining the min value of a pixel to be considered as an edge, equal to 90 and the padding to 2, we obtain the following image. This question is implemented in *src/mykernel_sobel.cu* and *inc/mykernel_sobel.h*.
 
-![Results](pics/sobel.png)
+![Question 10 : Sobel Filter](pics/sobel.png)
 
 ### Question 11-a: Resizing the image
 
@@ -105,7 +105,7 @@ In this question, the image is resized according to a scale factor *SCALE_FACTOR
 
 Note: In case you want to execute this code, uncomment code lines between "Question 11-a" and "END Question 11 - a" and comment the rest of the code lines in *src/modif_img.cpp*.
 
-![Results](pics/resize.png)
+![Question 11-a: Resizing the image](pics/resize.png)
 
 ### Question 11-b: Image rotation
 
@@ -113,31 +113,31 @@ In this question, the image is rotated with an angle in deg. In the implemented 
 
 Note: In case you want to execute this code, uncomment code lines between "Question 11-b" and "END Question 11 - b" and comment the rest of the code lines in *src/modif_img.cpp*.
 
-![Results](pics/rotation.png)
+![Question 11-b: Image rotation](pics/rotation.png)
 
 ### Question 11 - c: Diapositive effect
 
 In this question, we apply (c-255) to each component of the pixel c. This question is implemented in *src/mykernel_diapositive.cu* and *inc/mykernel_diapositive.h*. The resulting image is shown here-under.
 
-![Results](pics/diapositive.png)
+![Question 11 - c: Diapositive effect](pics/diapositive.png)
 
 ### Question 11 - d: Keeping only one null pixel component
 
 In this question, we keep only one null pixel component (red) while the other pixel components (green, blue) are null. This question is implemented in *src/mykernel_one_pixel.cu* and *inc/mykernel_one_pixel.h*. The resulting image is shown here-under.
 
-![Results](pics/one_pixel.png)
+![Question 11 - d: Keeping only one null pixel component](pics/one_pixel.png)
 
 ### Question 11 - e: Canny Filter
 
 In this question, the different steps of the Canny filter are implemented. This question is implemented in *src/mykernel_canny_filter.cu* and *inc/mykernel_canny_filter.h*. The resulting image is shown here-under.
 
-![Results](pics/canny.png)
+![Question 11 - e: Canny Filter](pics/canny.png)
 
 ### Question 12: PopArt effect
 
 In this question, the image is divided into 4 equal frames, each is modified differently. This question is implemented in *src/mykernel_popArt.cu* and *inc/mykernel_popArt.h*.
 
-![Results](pics/popart.png)
+![Question 12: PopArt effect](pics/popart.png)
 
 ### Question 13: Is the code efficient? Modifications?
 
@@ -152,4 +152,4 @@ Using 4 streams, the modifications could be executed in parallel. Thus, we can m
 
 In this question, the image is divided into 4 equal frames, where each stream applied modifications on one frame. This question is implemented in *src/mykernel_popArt_4streams.cu* and *inc/mykernel_popArt_4streams.h*.
 
-![Results](pics/popart_4streams.png)
+![Question 14: PopArt effect with 4 streams](pics/popart_4streams.png)
