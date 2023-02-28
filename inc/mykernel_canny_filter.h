@@ -24,6 +24,7 @@
 // Define Gaussian parameters
 #define SIGMA (1.0f)
 #define DIAMETER_BLUR 2
+#define PI 3.14159265358979323846
 
 /* Question 11 - e */
 

@@ -1,33 +1,68 @@
 # Image_Processing
-This project is held during the APM (Architecture et programmation d'accélérateurs) lectures and aimed at image processing using GPU (CUDA). 
+This project is held during the APM (Architecture et programmation d'accélérateurs) lectures and aimed at image processing using GPU (CUDA).
 
-- Compression of the input image to a table of bits using *FreeImage* library (Library installed and added to the environment)
-- Done using the supercomputer *ROMEO*
+- Realised by : Aicha Maaoui (Myself). 
+
+- Compression of the input image to a table of pixels using *FreeImage* library (Library installed and added to the environment)
+
+- Compiled and executed using the supercomputer *ROMEO*
 
 
 ## Compilation and execution of the program
 
 The project is compiled using a Makefile. 
 
-### Load modules
+### STEP 1 : Load modules
 
 To load the necessary modules :
 
 	source env.sh
 	
-### Compilation
+### STEP 2 : Compilation
 
 To compile the program :
 
 	make all
 	
-### Execution
+### STEP 3 : Execution
 
 The execution of the program is done using slurm, as follows :
 
 	sbatch carte_job.sh
 
-Two files are then generated: an error file, containing the erros -if any-, and an output file, containing the output prints. The input test image is given inside the *src* folder, and the new image will be also stored in the same folder.
+Two files are then generated: an error file, containing the erros -if any-, and an output file, containing the output prints. The input test image is put before compilation inside the *src* folder, and the new image will be also stored in the same folder (random choice).
+
+### Content Description
+
+The program content is described as follows :
+
+* Main program : *src/modif_img.cpp* (contains all headers)
+
+* Question 6 (Pixels Saturation of the image):  implemented in *src/mykernel_pixel_saturation.cu* and *inc/mykernel_pixel_saturation.h*
+
+* Question 7 (Horizontal Symmetry of the image): implemented in *src/mykernel_horizontal_symmetry.cu* and *inc/mykernel_horizontal_symmetry.h*
+
+* Question 8 (Blur image) : implemented in *src/mykernel_blur_image.cu* and *inc/mykernel_blur_image.h*
+
+* Question 9 (Grayscaled image) : implemented in *src/mykernel_grayscale.cu* and *inc/mykernel_grayscale.h*
+
+* Question 10 (Sobel Filter) : implemented in *src/mykernel_sobel.cu* and *inc/mykernel_sobel.h*
+
+* Question 11-a (Resizing the image) : implemented in *src/mykernel_resize.cu* and *inc/mykernel_resize.h*
+
+* Question 11-b (Image rotation) : implemented in *src/mykernel_rotation.cu* and *inc/mykernel_rotation.h*
+
+* Question 11 - c (Diapositive effect) : implemented in *src/mykernel_diapositive.cu* and *inc/mykernel_diapositive.h
+
+* Question 11 - d (Keeping only one null pixel component) : implemented in *src/mykernel_one_pixel.cu* and *inc/mykernel_one_pixel.h*
+
+* Question 11 - e (Canny Filter) : implemented in *src/mykernel_canny_filter.cu* and *inc/mykernel_canny_filter.h*
+
+* Question 12 (PopArt effect) : implemented in *src/mykernel_popArt.cu* and *inc/mykernel_popArt.h*
+
+* Question 13: Is the code efficient? Modifications? : Response at the end of this readme.
+
+* Question 14: PopArt effect with 4 streams : implemented in *src/mykernel_popArt_4streams.cu* and *inc/mykernel_popArt_4streams.h*
 
 
 ## Questions Description and Results
@@ -52,7 +87,7 @@ In this question, the kernel making a blur on the image is implemented. To do so
 
 ### Question 9 : Grayscaled image
 
-In this question, the initial image is modified into a grayscaled one. The result is given hereunder.
+In this question, the initial image is modified into a grayscaled one. The result is given hereunder. This question is implemented in *src/mykernel_grayscale.cu* and *inc/mykernel_grayscale.h*.
 
 ![Results](pics/grayscale.png)
 
@@ -64,7 +99,7 @@ Both kernel versions using global and shared memory are applied. Fixing the thre
 
 ![Results](pics/sobel.png)
 
-### Question 11-a: Resizing the image (for fun)
+### Question 11-a: Resizing the image
 
 In this question, the image is resized according to a scale factor *SCALE_FACTOR*. In the implemented code, the scale factor is set to 0.5. his question is implemented in *src/mykernel_resize.cu* and *inc/mykernel_resize.h*. The result is given below. 
 
@@ -92,6 +127,12 @@ In this question, we keep only one null pixel component (red) while the other pi
 
 ![Results](pics/one_pixel.png)
 
+### Question 11 - e: Canny Filter
+
+In this question, the different steps of the Canny filter are implemented. This question is implemented in *src/mykernel_canny_filter.cu* and *inc/mykernel_canny_filter.h*. The resulting image is shown here-under.
+
+![Results](pics/canny.png)
+
 ### Question 12: PopArt effect
 
 In this question, the image is divided into 4 equal frames, each is modified differently. This question is implemented in *src/mykernel_popArt.cu* and *inc/mykernel_popArt.h*.
@@ -100,7 +141,7 @@ In this question, the image is divided into 4 equal frames, each is modified dif
 
 ### Question 13: Is the code efficient? Modifications?
 
-The implemented code divides the image into 4 quadrants, to each modifications will be performed (saturation of the color). While now it is only executed on the default stream, which is stream 0, each (1/4)th of the image could be executed in a different stream, making it a total of 4 streams.
+The implemented code divides the image into 4 quadrants, to each modifications will be performed (saturation of the color). While now it is only executed on the default stream, which is stream 0, each (1/4)th of the image frame could be executed in a different stream, making it a total of 4 streams.
 
 * Default stream (s0) : (t1) : bottom-left -> (t2) : bottom-right -> (t3) : top-left -> (t4) : top-right. 
 * After : (t1) : (s0) = bottom-left, (s1) = bottom-right, (s2) : top-left, (s3) : top-right
