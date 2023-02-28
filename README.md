@@ -38,31 +38,31 @@ The program content is described as follows :
 
 * **Main program :** *src/modif_img.cpp* (contains all headers)
 
-* **Question 6 (Pixels Saturation of the image):**  implemented in *src/mykernel_pixel_saturation.cu* and *inc/mykernel_pixel_saturation.h*
+* **Question 6 (Pixels Saturation of the image):**  implemented in *src/mykernel_pixel_saturation.cu* and *inc/mykernel_pixel_saturation.h*. To run uncomment line (79) in the main and comment the rest of the kernels.
 
-* **Question 7 (Horizontal Symmetry of the image):** implemented in *src/mykernel_horizontal_symmetry.cu* and *inc/mykernel_horizontal_symmetry.h*
+* **Question 7 (Horizontal Symmetry of the image):** implemented in *src/mykernel_horizontal_symmetry.cu* and *inc/mykernel_horizontal_symmetry.h*. To run uncomment line (85) in the main and comment the rest of the kernels.
 
-* **Question 8 (Blur image) :** implemented in *src/mykernel_blur_image.cu* and *inc/mykernel_blur_image.h*
+* **Question 8 (Blur image) :** implemented in *src/mykernel_blur_image.cu* and *inc/mykernel_blur_image.h*. To run uncomment line (91) in the main and comment the rest of the kernels.
 
-* **Question 9 (Grayscaled image) :** implemented in *src/mykernel_grayscale.cu* and *inc/mykernel_grayscale.h*
+* **Question 9 (Grayscaled image) :** implemented in *src/mykernel_grayscale.cu* and *inc/mykernel_grayscale.h*. To run uncomment line (97) in the main and comment the rest of the kernels.
 
-* **Question 10 (Sobel Filter) :** implemented in *src/mykernel_sobel.cu* and *inc/mykernel_sobel.h*
+* **Question 10 (Sobel Filter) :** implemented in *src/mykernel_sobel.cu* and *inc/mykernel_sobel.h*. To run uncomment line (103) in the main and comment the rest of the kernels.
 
-* **Question 11-a (Resizing the image) :** implemented in *src/mykernel_resize.cu* and *inc/mykernel_resize.h*
+* **Question 11-a (Resizing the image) :** implemented in *src/mykernel_resize.cu* and *inc/mykernel_resize.h*. To run uncomment lines from (112) to (173) in the main and comment the rest of the kernels, as well as the rest of the main (from lines (277) to (309)).
 
-* **Question 11-b (Image rotation) :** implemented in *src/mykernel_rotation.cu* and *inc/mykernel_rotation.h*
+* **Question 11-b (Image rotation) :** implemented in *src/mykernel_rotation.cu* and *inc/mykernel_rotation.h*. To run uncomment lines from (185) to (225) in the main and comment the rest of the kernels, as well as the rest of the main (from lines (277) to (309)).
 
-* **Question 11 - c (Diapositive effect) :** implemented in *src/mykernel_diapositive.cu* and *inc/mykernel_diapositive.h
+* **Question 11 - c (Diapositive effect) :** implemented in *src/mykernel_diapositive.cu* and *inc/mykernel_diapositive.h*. To run uncomment line (232) in the main and comment the rest of the kernels.
 
-* **Question 11 - d (Keeping only one null pixel component) :** implemented in *src/mykernel_one_pixel.cu* and *inc/mykernel_one_pixel.h*
+* **Question 11 - d (Keeping only one null pixel component) :** implemented in *src/mykernel_one_pixel.cu* and *inc/mykernel_one_pixel.h*. To run uncomment line (238) in the main and comment the rest of the kernels.
 
-* **Question 11 - e (Canny Filter) :** implemented in *src/mykernel_canny_filter.cu* and *inc/mykernel_canny_filter.h*
+* **Question 11 - e (Canny Filter) :** implemented in *src/mykernel_canny_filter.cu* and *inc/mykernel_canny_filter.h*. To run uncomment line (244) in the main and comment the rest of the kernels.
 
-* **Question 12 (PopArt effect) :** implemented in *src/mykernel_popArt.cu* and *inc/mykernel_popArt.h*
+* **Question 12 (PopArt effect) :** implemented in *src/mykernel_popArt.cu* and *inc/mykernel_popArt.h*. To run uncomment line (250) in the main and comment the rest of the kernels.
 
-* **Question 13:** Is the code efficient? Modifications? : Response at the end of this readme.
+* **Question 13:** Is the code efficient? Modifications? : Response at the end of this readme file.
 
-* **Question 14:** PopArt effect with 4 streams : implemented in *src/mykernel_popArt_4streams.cu* and *inc/mykernel_popArt_4streams.h*
+* **Question 14:** PopArt effect with 4 streams : implemented in *src/mykernel_popArt_4streams.cu* and *inc/mykernel_popArt_4streams.h*. To run uncomment line (272) in the main and comment the rest of the kernels.
 
 
 ## Questions Description and Results
