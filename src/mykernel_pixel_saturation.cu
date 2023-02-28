@@ -14,7 +14,7 @@ __global__ void pixel_saturation(unsigned int *img, unsigned width, unsigned hei
 
   if ((idx_col < width) && (idx_line < height)){
 
-    unsigned int pixel = 255; //max
+    unsigned int pixel = (255u); //max
 
     // Saturation of the red pixel
     if (saturation == 0){

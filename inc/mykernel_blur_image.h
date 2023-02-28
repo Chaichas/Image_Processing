@@ -18,7 +18,7 @@
 }
 
 /* 
-  Define blur filer (neighboring) and tile sizes for "QUESTION 7"
+  Define blur filer (neighboring)
   REF : https://www.nvidia.com/content/nvision2008/tech_presentations/Game_Developer_Track/NVISION08-Image_Processing_and_Video_with_CUDA.pdf
 */
 #define BLUR_FILTER_RADIUS (3)

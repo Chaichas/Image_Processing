@@ -14,8 +14,9 @@
 #include "../inc/mykernel_popArt.h"
 #include "../inc/mykernel_popArt_4streams.h"
 #include "../inc/mykernel_one_pixel.h"
+#include "../inc/mykernel_canny_filter.h"
 
-// Define the block width of the grid (unsigned)
+// Define the block width within the grid
 #define BLOCK_WIDTH 32
 
 #define WIDTH 3840
@@ -46,7 +47,7 @@ int main (int argc , char** argv)
 
   fprintf(stdout, "Processing Image of size %d x %d\n", width, height);
 
-  /* Memory allocation */
+  /* Memory allocation on CPU */
   unsigned int *img = (unsigned int*) malloc(sizeof(unsigned int) * 3 * width * height);
   unsigned int *d_img = (unsigned int*) malloc(sizeof(unsigned int) * 3 * width * height);
   unsigned int *d_tmp = (unsigned int*) malloc(sizeof(unsigned int) * 3 * width * height);
@@ -234,8 +235,14 @@ int main (int argc , char** argv)
 
   /*****************************************************************************/
   /* Question 11 - d : Keep only one pixel component */
-  run_one_pixel(d_img, width, height, BLOCK_WIDTH);
+  //run_one_pixel(d_img, width, height, BLOCK_WIDTH);
   /* END Question 11 - d */
+  /*****************************************************************************/
+
+  /*****************************************************************************/
+  /* Question 11 - e : Canny filter */
+  run_canny_filter(d_img, d_tmp, width, height, BLOCK_WIDTH);
+  /* END Question 11 - e */
   /*****************************************************************************/
 
   /*****************************************************************************/

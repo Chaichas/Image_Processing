@@ -17,9 +17,9 @@ __global__ void blur_image(unsigned int *img, unsigned width, unsigned height){
         // Initialization
         int row, col;   
         int n_idx; 
-        unsigned int sum_R = 0;
-        unsigned int sum_G = 0;
-        unsigned int sum_B = 0;
+        unsigned int sum_R = (0u);
+        unsigned int sum_G = (0u);
+        unsigned int sum_B = (0u);
 
         // Loop on neighboring pixels
         for(int i = -BLUR_FILTER_RADIUS; i <= BLUR_FILTER_RADIUS; i++){
